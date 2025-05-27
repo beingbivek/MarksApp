@@ -5,6 +5,7 @@
 package marksapp.view;
 
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 
 /**
  *
@@ -147,7 +148,7 @@ public class LoginView extends javax.swing.JFrame {
     public void LoginUser(ActionListener listener){
         jButton1.addActionListener(listener);
     }
-    public void forgotpassword(){
-        
+    public void forgotpassword(MouseListener listener){
+        forgotPasswordLabel.addMouseListener(listener);
     }
 }

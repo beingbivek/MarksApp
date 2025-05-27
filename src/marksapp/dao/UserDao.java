@@ -35,7 +35,7 @@ public class UserDao {
     
     public UserData loginUser(LoginRequest loginData){
         Connection conn = mySql.openConnection();
-        String sql = "SELECT * FROM vpmsUsers where email = ? and password = ?";
+        String sql = "SELECT * FROM users where email = ? and password = ?";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, loginData.getEmail());
             pstmt.setString(2, loginData.getPassword());
@@ -56,6 +56,21 @@ public class UserDao {
             mySql.closeConnection(conn);
         }
         return null;
+    }
+    
+    public boolean checkEmail(String email){
+        Connection conn = mySql.openConnection();
+        String query = "SELECT * FROM users where email=?";
+        try{
+            PreparedStatement stmnt = conn.prepareStatement(query);
+            stmnt.setString(1,email);
+            ResultSet result = stmnt.executeQuery();
+            return result.next();
+        }catch(Exception e){
+            return false;
+        }finally{
+            mySql.closeConnection(conn);
+        }
     }
     
 }
