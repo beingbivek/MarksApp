@@ -73,7 +73,21 @@ public class UserDao {
         }
     }
     
-    public 
+    public boolean resetPassword(String email,String password){
+        Connection conn = mySql.openConnection();
+        String query = "UPDATE users set fpassword = ? where email = ?";
+        try{
+            PreparedStatement stmnt = conn.prepareStatement(query);
+            stmnt.setString(1,password);
+            stmnt.setString(2,email);
+            ResultSet result = stmnt.executeQuery();
+            return result.next();
+        }catch(Exception e){
+            return false;
+        }finally{
+            mySql.closeConnection(conn);
+        }
+    }
     
 }
  
