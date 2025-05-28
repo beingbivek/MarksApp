@@ -26,6 +26,7 @@ public class RegisterController {
         // initialize the view
         this.registerView = registerView;
         this.registerView.registerUser(new RegisterUser());
+        this.registerView.openLoginPage(new LoginPageOpen());
     }
     public void open(){
         this.registerView.setVisible(true);
@@ -72,6 +73,7 @@ public class RegisterController {
         @Override
         public void mouseClicked(MouseEvent e) {
             openLoginPage();
+            close();
         }
 
         @Override
