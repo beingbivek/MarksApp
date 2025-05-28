@@ -7,6 +7,7 @@ package marksapp.dao;
 import java.sql.*;
 import marksapp.database.MySqlConnection;
 import marksapp.model.LoginRequest;
+import marksapp.model.ResetPassword;
 import marksapp.model.UserData;
 
 /**
@@ -35,7 +36,7 @@ public class UserDao {
     
     public UserData loginUser(LoginRequest loginData){
         Connection conn = mySql.openConnection();
-        String sql = "SELECT * FROM users where email = ? and password = ?";
+        String sql = "SELECT * FROM users WHERE email = ? and password = ?";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, loginData.getEmail());
             pstmt.setString(2, loginData.getPassword());
@@ -60,7 +61,7 @@ public class UserDao {
     
     public boolean checkEmail(String email){
         Connection conn = mySql.openConnection();
-        String query = "SELECT * FROM users where email=?";
+        String query = "SELECT * FROM users WHERE email=?";
         try{
             PreparedStatement stmnt = conn.prepareStatement(query);
             stmnt.setString(1,email);
@@ -73,13 +74,13 @@ public class UserDao {
         }
     }
     
-    public boolean resetPassword(String email,String password){
+    public boolean resetPassword(ResetPassword resetReq){
         Connection conn = mySql.openConnection();
-        String query = "UPDATE users set fpassword = ? where email = ?";
+        String query = "UPDATE users SET fpassword = ? WHERE email = ?";
         try{
             PreparedStatement stmnt = conn.prepareStatement(query);
-            stmnt.setString(1,password);
-            stmnt.setString(2,email);
+            stmnt.setString(1,resetReq.getPassword());
+            stmnt.setString(2,resetReq.getEmail());
             ResultSet result = stmnt.executeQuery();
             return result.next();
         }catch(Exception e){
