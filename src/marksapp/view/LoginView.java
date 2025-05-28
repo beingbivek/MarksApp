@@ -145,7 +145,7 @@ public class LoginView extends javax.swing.JFrame {
     public javax.swing.JPasswordField getPasswordTextField(){
         return jPasswordField1;
     }
-    public void LoginUser(ActionListener listener){
+    public void openLoginPage(ActionListener listener){
         jButton1.addActionListener(listener);
     }
     public void forgotpassword(MouseListener listener){

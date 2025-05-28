@@ -7,7 +7,7 @@ package marksapp.dao;
 import java.sql.*;
 import marksapp.database.MySqlConnection;
 import marksapp.model.LoginRequest;
-import marksapp.model.ResetPassword;
+import marksapp.model.ResetPasswordRequest;
 import marksapp.model.UserData;
 
 /**
@@ -74,7 +74,7 @@ public class UserDao {
         }
     }
     
-    public boolean resetPassword(ResetPassword resetReq){
+    public boolean resetPassword(ResetPasswordRequest resetReq){
         Connection conn = mySql.openConnection();
         String query = "UPDATE users SET fpassword = ? WHERE email = ?";
         try{

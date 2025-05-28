@@ -8,10 +8,10 @@ package marksapp.model;
  *
  * @author being
  */
-public class ResetPassword {
+public class ResetPasswordRequest {
     private String email;
     private String password;
-    public ResetPassword(String email,String password){
+    public ResetPasswordRequest(String email,String password){
         this.email = email;
         this.password = password;
     }

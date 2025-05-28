@@ -9,8 +9,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JOptionPane;
+import marksapp.controller.mail.SMTPSMailSender;
 import marksapp.dao.UserDao;
 import marksapp.model.LoginRequest;
+import marksapp.model.ResetPasswordRequest;
 import marksapp.model.UserData;
 import marksapp.view.DashboardView;
 import marksapp.view.LoginView;
@@ -23,6 +25,8 @@ public class LoginController {
     private LoginView view;
     public LoginController(LoginView view){
         this.view = view;
+        this.view.forgotpassword(new ResetPassword());
+        this.view.openLoginPage(new LoginUser());
     }
     public void open(){
         view.setVisible(true);
@@ -60,6 +64,39 @@ public class LoginController {
         @Override
         public void mouseClicked(MouseEvent e) {
             String email = JOptionPane.showInputDialog(view,"Enter your email");
+            if(email.isEmpty()){
+                JOptionPane.showMessageDialog(view, "Email cannot be empty");
+            }else{
+                UserDao userDao = new UserDao();
+                boolean emailExists = userDao.checkEmail(email);
+                if(!emailExists){
+                    JOptionPane.showMessageDialog(view,"Email doesnot exist");
+                }else{
+                    String otp = "987586";
+                    boolean mailSent = SMTPSMailSender.sendMail(email,"Reset Password Verfication","The OTP to reset your password is "+otp);
+                    if(!mailSent){
+                        JOptionPane.showMessageDialog(view, "Failed to send OTP. Try Again later!");
+                    }else{
+                        String otpReceived = JOptionPane.showInputDialog(email,"Enter youe otp code");
+                        if(!otp.equals(otpReceived)){
+                            JOptionPane.showMessageDialog(view, "OTP did not Match");
+                        }else{
+                            String password = JOptionPane.showInputDialog(view,"Enter your new password");
+                            if(password.trim().isEmpty()){
+                                JOptionPane.showMessageDialog(view, "Password is Empty");
+                            }else{
+                                ResetPasswordRequest resetPassword = new ResetPasswordRequest(email,password);
+                                boolean updateResult = userDao.resetPassword(resetPassword);
+                                if(!updateResult){
+                                    JOptionPane.showMessageDialog(view, "Failed to reset password");
+                                }else{
+                                    JOptionPane.showMessageDialog(view,"Password has been changed");
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         @Override
