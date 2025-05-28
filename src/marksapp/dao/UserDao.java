@@ -81,8 +81,8 @@ public class UserDao {
             PreparedStatement stmnt = conn.prepareStatement(query);
             stmnt.setString(1,resetReq.getPassword());
             stmnt.setString(2,resetReq.getEmail());
-            ResultSet result = stmnt.executeQuery();
-            return result.next();
+            int result = stmnt.executeUpdate();
+            return result > 0;
         }catch(Exception e){
             return false;
         }finally{
