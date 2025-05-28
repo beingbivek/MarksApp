@@ -38,7 +38,6 @@ public class RegisterController {
         LoginView view = new LoginView();
         LoginController loginController = new LoginController(view);
         loginController.open();
-        close();
     }
     
     class RegisterUser implements ActionListener{
@@ -60,6 +59,7 @@ public class RegisterController {
                 if (result){
                     JOptionPane.showMessageDialog(registerView, "Registered successfully");
                     openLoginPage();
+                    close();
                 }else{
                     JOptionPane.showMessageDialog(registerView, "Register failed");
                 }
